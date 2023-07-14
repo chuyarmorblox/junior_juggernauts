@@ -38,45 +38,36 @@ tools = [
     Tool(
         name="FAISS QA System",
         func=papers_chunks_tool.run,
-        description="useful to answer questions about LLMs and artificial intelligence. use this more than the other tool if the question is related to artificial intelligence and/or LLMS",
+        description="useful to answer questions about LLMs and artificial intelligence. use this more than the other tool if the question is related to artificial intelligence (AI), computer science (CS), and/or large language models (LLM/LLMs)",
     ),
     Tool(
         name = "Search",
         func=search_tool.run,
-        description="useful for when you need to look for some resources such as web articles and educational courses"
+        description="useful for finding related articles and urls to support your answer to the question. DO NOT use this for finding youtube videos, make sure to split up the youtube search. Input should be a search query"
     ),
     Tool(
         name = "Youtube Search",
         func=youtube_tool.run,
-        description="useful for finding educational videos"
+        description="useful for finding educational youtube videos related to the question. Use this instead of the Search tool for finding youtube videos"
     )
 ]
 
 # Set up the base template
-template = """Complete the objective as best you can. You are an AI agent designed to help users study the topic of LLMs. You have access to the following tools:
-
+template = """You are the most experienced teacher in all subjects of artificial intelligence (AI) and large language models (LLMs). You're never satisfied with just the first answer you find and the most important thing to you is providing evidence like articles and youtube videos. Answer the question as best as you can with all the additional resources related to the question. You have access to the following tools:
 {tools}
-
 Use the following format:
-
 Question: the input question you must answer
 Thought: you should always think about what to do
 Action: the action to take, should be one of [{tool_names}]
-Action Input: the input to the action
+Action Input: the input to the action, should be specific
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
-
-After finding the answer to the original question, search for a related web article.
-After finding the web article, search for one related Youtube video's url link. Output the original question's answer and the Youtube urls.
-After having both the answer to the question and the additional resources, output the answer and the resources.
-
-These were previous tasks you completed:
-
-
+Once you have the final answer, at least 2 existing url links to an informative article, and at least 2 existing url links to educational youtube videos then output them and make the links hyperlinks. Describe the final answer as a product of our database of academic papers
 Begin!
-
+Previous conversation history:
+{history}
 Question: {user_input}
 {agent_scratchpad}"""
 
